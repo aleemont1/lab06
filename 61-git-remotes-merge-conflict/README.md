@@ -65,4 +65,3 @@ git remote add fallback git@github.com:aleemont1/lab06_61-fallback.git
 git push -u fallback master
 
 9. Si setti il branch remoto `master` del nuovo repository come *upstream* per il proprio branch `master` locale
-git branch --set-upstream-to=fallback/master
