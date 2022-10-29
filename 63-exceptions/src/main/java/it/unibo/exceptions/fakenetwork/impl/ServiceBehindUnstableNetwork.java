@@ -51,7 +51,7 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
     }
 
     @Override
-    public void sendData(final String data) throws IOException {
+    public void sendData(final String data) throws NetworkException {
         accessTheNework(data);
         final var exceptionWhenParsedAsNumber = nullIfNumberOrException(data);
         if (KEYWORDS.contains(data) || exceptionWhenParsedAsNumber == null) {
@@ -80,9 +80,9 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
         }
     }
 
-    private void accessTheNework(final String message) throws IOException {
+    private void accessTheNework(final String message) throws NetworkException {
         if (randomGenerator.nextDouble() < failProbability) {
-            throw new IOException("Generic I/O error");
+            throw new NetworkException("Generic I/O error");
         }
     }
 
