@@ -55,44 +55,45 @@ public final class ArithmeticService {
      * @return the result of the process
      */
     public String process() {
-        if (commandQueue.isEmpty()) {
-            // System.out.println("No commands sent, no result available");
-            throw new IllegalStateException("No commands sent, no result available");
-        }
-        while (commandQueue.size() != 1) {
-            final var nextMultiplication = commandQueue.indexOf(TIMES);
-            final var nextDivision = commandQueue.indexOf(DIVIDED);
-            final var nextPriorityOp = nextMultiplication >= 0 && nextDivision >= 0
-                ? min(nextMultiplication, nextDivision)
-                : max(nextMultiplication, nextDivision);
-            if (nextPriorityOp >= 0) {
-                computeAt(nextPriorityOp);
-            } else {
-                final var nextSum = commandQueue.indexOf(PLUS);
-                final var nextMinus = commandQueue.indexOf(MINUS);
-                final var nextOp = nextSum >= 0 && nextMinus >= 0
-                    ? min(nextSum, nextMinus)
-                    : max(nextSum, nextMinus);
-                if (nextOp != -1) {
-                    if (commandQueue.size() < 3) {
-                        // System.out.println("Inconsistent operation: " + commandQueue);
-                        throw new IllegalStateException("Inconsistent operation: " + commandQueue);
+        try {
+            if (commandQueue.isEmpty()) {
+                // System.out.println("No commands sent, no result available");
+                throw new IllegalStateException("No commands sent, no result available");
+            }
+            while (commandQueue.size() != 1) {
+                final var nextMultiplication = commandQueue.indexOf(TIMES);
+                final var nextDivision = commandQueue.indexOf(DIVIDED);
+                final var nextPriorityOp = nextMultiplication >= 0 && nextDivision >= 0
+                    ? min(nextMultiplication, nextDivision)
+                    : max(nextMultiplication, nextDivision);
+                if (nextPriorityOp >= 0) {
+                    computeAt(nextPriorityOp);
+                } else {
+                    final var nextSum = commandQueue.indexOf(PLUS);
+                    final var nextMinus = commandQueue.indexOf(MINUS);
+                    final var nextOp = nextSum >= 0 && nextMinus >= 0
+                        ? min(nextSum, nextMinus)
+                        : max(nextSum, nextMinus);
+                    if (nextOp != -1) {
+                        if (commandQueue.size() < 3) {
+                            // System.out.println("Inconsistent operation: " + commandQueue);
+                            throw new IllegalStateException("Inconsistent operation: " + commandQueue);
+                        }
+                        computeAt(nextOp);
+                    } else if (commandQueue.size() > 1) {
+                        // System.out.println("Inconsistent state: " + commandQueue);
+                        throw new IllegalStateException("Inconsistent state: " + commandQueue);
                     }
-                    computeAt(nextOp);
-                } else if (commandQueue.size() > 1) {
-                    // System.out.println("Inconsistent state: " + commandQueue);
-                    throw new IllegalStateException("Inconsistent state: " + commandQueue);
                 }
             }
-        }
-        final var finalResult = commandQueue.get(0);
-        final var possibleException = nullIfNumberOrException(finalResult);
-        
-        if (possibleException != null) {
-                // System.out.println("Invalid result of operation: " + finalResult);
-            throw new IllegalStateException("Invalid result of operation: " + finalResult, possibleException);
-        }
-        try {
+            final var finalResult = commandQueue.get(0);
+            final var possibleException = nullIfNumberOrException(finalResult);
+            
+            if (possibleException != null) {
+                    // System.out.println("Invalid result of operation: " + finalResult);
+                throw new IllegalStateException("Invalid result of operation: " + finalResult, possibleException);
+            }
+            
             return finalResult;
         } finally { commandQueue.clear(); }
             /*
