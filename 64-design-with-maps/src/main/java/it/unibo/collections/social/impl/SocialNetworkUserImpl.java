@@ -36,7 +36,7 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      * In order to save the people followed by a user organized in groups, adopt
      * a generic-type Map:  think of what type of keys and values would best suit the requirements
      */
-
+    private final Map<String, Set<U>> followedUsers;
     /*
      * [CONSTRUCTORS]
      *
@@ -62,12 +62,18 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      *            application
      */
     public SocialNetworkUserImpl(final String name, final String surname, final String user, final int userAge) {
-        super(null, null, null, 0);
+        super(name, surname, user, userAge);
+        this.followedUsers = new HashMap<>();
     }
 
     /*
      * 2) Define a further constructor where the age defaults to -1
      */
+
+    public SocialNetworkUserImpl(final String name, final String surname, final String user) {
+        super(name, surname, user, -1);
+        this.followedUsers = new HashMap<>();
+    }
 
     /*
      * [METHODS]
@@ -76,7 +82,12 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public boolean addFollowedUser(final String circle, final U user) {
-        return false;
+        Set<U> users = this.followedUsers.get(circle);                       //Get users in group (circle)
+        if(users == null) {
+            users = new HashSet<>();                                        //If group doesn't exist, create it
+            this.followedUsers.put(circle, users);                          //And add it to the map of friends
+        }
+        return users.add(user);                                             //Add user to group
     }
 
     /**
@@ -86,11 +97,19 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
-        return null;
+        final Collection<U> users = this.followedUsers.get(groupName);      //Get users in group
+        if(users == null) {
+            return Collections.emptyList();                                 //If group doesn't exist, return empty list
+        }
+        return new ArrayList<>(users);                                      //Else return a list of the users in specified group 
     }
 
     @Override
     public List<U> getFollowedUsers() {
-        return null;
+        final Set<U> users = new HashSet<>();               //Create a set of users to store users in groups
+        for(final Set<U> group : followedUsers.values()) {  //Iterate the map
+            users.addAll(group);                            //Add all users in group to set
+        }
+        return new ArrayList<>(users);                      //Return a list of the users in all groups
     }
 }
