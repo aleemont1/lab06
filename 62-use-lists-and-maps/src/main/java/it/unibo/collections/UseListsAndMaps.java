@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public final class UseListsAndMaps {
 
     private static final int ELEMS = 100_000;
-    private static final int LOOPS = 1000;
+    private static final int LOOPS = 10_000;
     private static final int START = 1000;
     private static final int END = 2000;
     private static final long AFRICA_POPULATION = 1_110_635_000L;
