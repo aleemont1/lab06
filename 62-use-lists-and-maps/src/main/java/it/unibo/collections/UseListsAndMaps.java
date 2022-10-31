@@ -44,8 +44,7 @@ public final class UseListsAndMaps {
          * without using any looping construct (for, while), populate it with
          * the same contents of the list of point 1.
          */
-        final var list2 = new LinkedList<Integer>();
-        list2.addAll(list);
+        final var list2 = new LinkedList<Integer>(list);
         /*
          * 3) Using "set" and "get" and "size" methods, swap the first and last
          * element of the first list. You can not use any "magic number".
