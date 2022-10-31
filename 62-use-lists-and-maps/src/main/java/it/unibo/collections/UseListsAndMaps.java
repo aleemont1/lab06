@@ -14,6 +14,15 @@ public final class UseListsAndMaps {
 
     private static final int ELEMS = 100_000;
     private static final int LOOPS = 1000;
+    private static final int START = 1000;
+    private static final int END = 2000;
+    private static final long AFRICA_POPULATION = 1_110_635_000L;
+    private static final long AMERICAS_POPULATION = 972_005_000L;
+    private static final long ANTARCTICA_POPULATION = 0L;
+    private static final long ASIA_POPULATION = 4_298_723_000L;
+    private static final long EUROPE_POPULATION = 742_452_000L;
+    private static final long OCEANIA_POPULATION = 38_304_000L;
+
     private UseListsAndMaps() {
     }
 
@@ -27,7 +36,7 @@ public final class UseListsAndMaps {
          * from 1000 (included) to 2000 (excluded).
          */
         final var list = new ArrayList<Integer>();
-        for(int i = 1000; i < 2000; i++) {
+        for(int i = START; i < END; i++) {
             list.add(i);
         }
         /*
@@ -110,8 +119,8 @@ public final class UseListsAndMaps {
          *
          * Oceania -> 38,304,000
          */
-        final var map = Map.of("Africa", 1_110_635_000, "Americas", 972_005_000, "Antarctica", 0, 
-                                "Asia", 4_298_723_000L, "Europe", 742_452_000, "Oceania", 38_304_000);
+        final var map = Map.of("Africa", AFRICA_POPULATION, "Americas", AMERICAS_POPULATION, "Antarctica", ANTARCTICA_POPULATION, "Asia", ASIA_POPULATION, "Europe", EUROPE_POPULATION, "Oceania", OCEANIA_POPULATION,
+                                "Asia", ASIA_POPULATION, "Europe", EUROPE_POPULATION, "Oceania", OCEANIA_POPULATION);
         /*
          * 8) Compute the population of the world
          */
