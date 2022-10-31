@@ -11,11 +11,16 @@ import java.util.Set;
 import it.unibo.generics.graph.api.Graph;
 
 public class GraphImpl<N> implements Graph<N> {
+
     private final Map<N, Set<N>> graph = new LinkedHashMap<>();
 
     public GraphImpl(N n, Set<N> set) {
         graph.put(n, set);
-    }   
+    }  
+    
+    public GraphImpl() {
+    }
+
     @Override
     public void addNode(N node) {
         graph.putIfAbsent(node, new HashSet<>());
